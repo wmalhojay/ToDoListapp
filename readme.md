@@ -11,6 +11,7 @@ The ToDoList project is a web application designed to help users manage their ta
 
 ## Project Structure
 
+```
 ToDoList/
 ├── models/
 │   └── toDo.js # Mongoose model for ToDo tasks
@@ -26,6 +27,8 @@ ToDoList/
 │       └── ... # EJS partials like header, footer
 ├── index.js # Entry point of the application
 └── package.json # Project metadata and dependencies
+```
+
 
 ## Setup and Installation
 1. **Clone the Repository**: `git clone git@github.com:wmalhojay/ToDoListapp.git`
