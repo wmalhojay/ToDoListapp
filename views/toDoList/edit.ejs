@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>New Task</title>
+    <link rel="stylesheet" href="/css/bootstrap.css" type="text/css">
+</head>
+<body>
+<div class="container">
+    <header class="d-flex flex-wrap justify-content-center border-bottom py-3 mb-4 p-3" style="font-size: 25px">
+        <a href="/" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto link-body-emphasis text-decoration-none">
+            <svg xmlns="http://www.w3.org/2000/svg" width="35" height="35" fill="black" class="bi bi-pen-fill" viewBox="0 0 16 16">
+                <path d="m13.498.795.149-.149a1.207 1.207 0 1 1 1.707 1.708l-.149.148a1.5 1.5 0 0 1-.059 2.059L4.854 14.854a.5.5 0 0 1-.233.131l-4 1a.5.5 0 0 1-.606-.606l1-4a.5.5 0 0 1 .131-.232l9.642-9.642a.5.5 0 0 0-.642.056L6.854 4.854a.5.5 0 1 1-.708-.708L9.44.854A1.5 1.5 0 0 1 11.5.796a1.5 1.5 0 0 1 1.998-.001"/>
+            </svg>
+            <h1 class="fs-4" style="color: black; margin-left: 10px; font-size: 45px !important;">To Do List</h1>
+        </a>
+
+        <ul class="nav nav-pills">
+            <li class="nav-item" style="margin-left:15px"><a href="/" class="nav-link link-info" aria-current="page">Home</a></li>
+        </ul>
+
+    </header>
+
+</div>
+<div class = "container" style = "font-size: 30px; display: flex; width: 80%">
+    <div style="flex:1">
+        <table class = "custom" style="text-align: center">
+            <thead>
+            <tr>
+                <th>Task</th>
+                <th>Priority</th>
+                <th>Due Date</th>
+                <th>isCompleted</th>
+                <th></th>
+            </tr>
+            </thead>
+            <tbody>
+            <% for(let l of list){ %>
+                <tr class = "border-bottom" id = "border-bottom">
+                    <td><%= l.task %></td>
+                    <td><%= l.priority %></td>
+                    <td><%= l.dueDate.toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric', year: 'numeric' }) %></td>
+                    <td><%= l.done === false ?'No':'Yes' %></td>
+                    <td>
+                        <a id = "edit" href = "/toDoList/edit/<%= l._id %>">
+                            <button class = "btn btn-warning">Edit</button>
+                        </a>
+                    </td>
+                </tr>
+            <% } %>
+            </tbody>
+        </table>
+    </div>
+    <form action = "/toDoList/edit/<%= id %>/done?_method=PATCH" method = "post" style="flex: 1">
+        <div class = "form-group">
+            <label for = "task">Task : </label>
+            <textarea class = "form-control" id = "task" name = "task" required style ="height: 200px; font-size: 25px"><%= task %></textarea>
+            <br>
+            <label for = "priority">Priority : </label>
+            <select class = "form-control" id = "priority" name = "priority" required style="font-size: 25px">
+                <option value = "High" <%= priority==='High'?'selected':'' %>>High</option>
+                <option value = "Medium" <%= priority==='Medium'?'selected':'' %>>Medium</option>
+                <option value = "Low" <%= priority==='Low'?'selected':'' %>>Low</option>
+            </select>
+            <br>
+            <label for = "dueDate">Due Date : </label>
+            <input type = "date" class = "form-control" id = "dueDate" name = "dueDate" style="font-size: 25px" value= "<%= dueDate.toISOString().split('T')[0] %>" required>
+            <br>
+            <label>Completed ? :</label><br>
+            <label class="form-check-label" for = "done">Yes</label>
+            <input class="form-check-input" type="radio" id="done" name="done" value="true" <%= done===true?'checked':'' %>>
+            <label class="form-check-label" for = "notDone">No</label>
+            <input class="form-check-input" type="radio" id="notDone" name="done" value="false" <%= done===false?'checked':'' %>>
+            <br><br>
+            <button type = "submit" style="font-size: 25px" class = "btn btn-success">Update</button>
+        </div>
+    </form>
+</div>
+<script src="/js/bootstrap.bundle.js"></script>
+<script>
+    const tds = document.querySelectorAll('td')
+    for(let td of tds){
+        if(td.innerText === 'Yes'){
+            td.parentNode.style.textDecoration = 'line-through';
+            td.parentNode.style.opacity = '0.5';
+    }}
+</script>
+</body>
+</html>
